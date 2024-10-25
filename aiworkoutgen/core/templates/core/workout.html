@@ -15,7 +15,7 @@
     <p><b>Target: {{full_target_list}}</b></p>
     <p><b>Equipment: {{full_equipment_list}}</b></p>
 
-    <h3>Workout Sections:</h3>
+    <h3>Workout Generation:</h3>
     <!-- go through sections , in each section, go through each item-->
     {% for section_name, exercise_list in workout_data.sections.items %}
         <h4>{{ section_name}}</h4> <!--print section name, i.e warmup, cooldown-->
@@ -34,5 +34,14 @@
                 {% endfor %}
             </ul>
             {% endfor %}
+
+
+            <!--save workout data if checked-->
+            <form method ="POST" action = "{% url 'save_workout' %}"> 
+                {% csrf_token %}
+                <label for="completed"> "Did you complete the workout? " </label>
+                <input type="checkbox" id="completed" name="completed" value="True">
+                <button type="submit"> Save Workout</button>
+            </form>
 </body>
 </html>

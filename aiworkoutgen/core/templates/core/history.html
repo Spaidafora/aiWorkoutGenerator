@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workout History</title>
+</head>
+<body>
+    <h1>{{request.user.username}} Workout History</h1>
+    <ul>
+        {% for workout in workouts %}
+            <li>
+                <strong>Date Completed:</strong> {{ workout.created_at }}<br>
+                <strong>Duration:</strong> {{ workout.duration }}<br>
+                <strong>Full Target List:</strong> {{ workout.full_target_list }}<br>
+                <strong>Full Equipment List:</strong> {{ workout.full_equipment_list }}<br>
+                
+                <h3>Workout # {{workout.id}}:</h3>
+                {% for section_name, exercise_list in workout.workout_data.sections.items %}
+                    <h4>{{ section_name }}</h4>
+                    <ul>
+                        {% for exercise in exercise_list %}
+                            <li>
+                                <strong>{{ exercise.name }}</strong><br>
+                                Time: {{ exercise.time }} minutes<br>
+                                {% if exercise.sets %}Sets: {{ exercise.sets }}<br>{% endif %}
+                                {% if exercise.reps %}Reps: {{ exercise.reps }}<br>{% endif %}
+                                Target Area: {{ exercise.target_area }}<br>
+                                Equipment Needed: {{ exercise.equipment_needed }}<br>
+                                <br>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endfor %}
+                <hr>
+            </li>
+        {% empty %}
+            <li>No completed workouts found.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class WorkoutPlan(models.Model):
     WORKOUT_DURATIONS = [
@@ -30,12 +31,16 @@ class WorkoutPlan(models.Model):
 
     user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
     duration = models.CharField(max_length=15, choices=WORKOUT_DURATIONS)
+    full_target_list = models.CharField(max_length=250, blank=True, null=True)  
+    full_equipment_list = models.CharField(max_length=250, blank=True, null=True) 
+    created_at = models.DateTimeField(auto_now_add=True)
+    completed = models.BooleanField(default=False) #Will track if user completed field (T or F)
+    workout_data = models.JSONField()  # Updated to use django.db.models.JSONField, workout_data
+    
+    # full list option here (testing)
     target_area = models.CharField(max_length=50, choices=TARGET_AREAS)
     equipment = models.CharField(max_length=50, choices=EQUIPMENT_CHOICES)
     custom_target = models.CharField(max_length=100, blank=True, null=True)
     custom_equipment = models.CharField(max_length=100, blank=True, null=True)
-    sections = models.JSONField()  # Updated to use django.db.models.JSONField
-    created_at = models.DateTimeField(auto_now_add=True)
-
     def __str__(self):
         return f"{self.user.username}'s workout plan for {self.target_area} - {self.duration} mins"
