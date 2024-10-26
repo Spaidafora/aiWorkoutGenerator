@@ -17,12 +17,15 @@
         <div class="container mx-auto flex justify-between items-center px-6">
             <h1 class="text-2xl font-bold text-gray-900">AI Workout Generator</h1>
             <div class="flex space-x-4 items-center">
-                <a href="{% url 'history' %}" class="text-gray-600 hover:text-red-500 transition duration-300">History</a>
-                {% if user.is.authenticated %}
-                <a href="#" class="text-gray-600 hover:text-red-500 transition duration-300">Logout</a>
+                <!--old history link was here moved for testing-->
+                {% if user.is_authenticated %}
+                <a href="{% url 'logout' %}" class="text-gray-600 hover:text-red-500 transition duration-300">Logout</a>
+                <a href="{% url 'history' %}"
+                    class="text-gray-600 hover:text-red-500 transition duration-300">History</a>
                 {% else %}
                 <a href="{% url 'login' %}" class="text-gray-600 hover:text-red-500 transition duration-300">Login</a>
                 {% endif %}
+                <!--<a href="{% url 'history' %}" class="text-gray-600 hover:text-red-500 transition duration-300">History</a>-->
                 <button id="theme-toggle" class="text-gray-600 hover:text-red-500 transition duration-300">
                     Toggle Theme
                 </button>
@@ -142,9 +145,8 @@
                 </div>
 
                 <!-- Get Started Button -->
-                <button type="submit"
-                     class="w-full text-white font-semibold py-3 rounded-md transition duration-300"
-                        style="background-color: #3B82F6;">Generate Plan</button>
+                <button type="submit" class="w-full text-white font-semibold py-3 rounded-md transition duration-300"
+                    style="background-color: #3B82F6;">Generate Plan</button>
                 <button type="button" id="close-modal"
                     class="w-full mt-2 bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 rounded-md transition duration-300">Cancel</button>
             </form>
@@ -211,6 +213,24 @@
             document.body.classList.toggle('bg-gray-100');
             document.body.classList.toggle('text-gray-800');
             updateModalTheme();
+
+            if (document.body.classList.contains('bg-gray-900')) {
+                localStorage.setItem('theme', 'dark');
+            } else {
+                localStorage.setItem('theme', 'light');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+
+            if (savedTheme === 'dark') {
+                document.body.classList.add('bg-gray-900', 'text-gray-100');
+                document.body.classList.remove('bg-gray-100', 'text-gray-800');
+            } else {
+                document.body.classList.add('bg-gray-100', 'text-gray-800');
+                document.body.classList.remove('bg-gray-900', 'text-gray-100');
+            }
         });
     </script>
 </body>

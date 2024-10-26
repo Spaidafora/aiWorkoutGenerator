@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import json
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import JsonResponse
@@ -38,6 +38,11 @@ def user_login(request):
     
     return render(request, 'core/login.html')
 
+def user_logout(request):
+    logout(request)
+    # messages.success(request, ("You are now logged out!"))
+    return redirect ('home')
+
 #signup
 def user_signup(request):
     if request.method == 'POST':
@@ -59,7 +64,7 @@ def user_signup(request):
             messages.success(request, "You have successfully registered! Please Log In")
             return redirect('login')
         except Exception as e:
-            messages.error(request, f"Error while creating User: {str(e)}")
+            messages.error(request, "The Username or Email is already in use!")
             return render(request, 'core/signup.html')
             
     return render(request, 'core/signup.html')
