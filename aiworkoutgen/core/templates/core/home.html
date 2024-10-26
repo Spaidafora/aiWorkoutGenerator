@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Workout Generator</title>
     <link href="{% static 'css/output.css' %}" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="bg-gray-100 text-gray-800 font-sans">
@@ -39,7 +40,7 @@
                 equipment.
             </p>
             <button id="get-started"
-                class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-6 rounded-md transition duration-300">Get
+                class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-md transition duration-300">Get
                 Started</button>
         </div>
     </header>
@@ -142,8 +143,8 @@
 
                 <!-- Get Started Button -->
                 <button type="submit"
-                    class="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-3 rounded-md transition duration-300">Generate
-                    Plan</button>
+                     class="w-full text-white font-semibold py-3 rounded-md transition duration-300"
+                        style="background-color: #3B82F6;">Generate Plan</button>
                 <button type="button" id="close-modal"
                     class="w-full mt-2 bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 rounded-md transition duration-300">Cancel</button>
             </form>

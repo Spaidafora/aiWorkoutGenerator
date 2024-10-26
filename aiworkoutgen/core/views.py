@@ -12,7 +12,7 @@ from django.contrib.auth.models import User
 
 
 # API key
-key = ''
+key = ' ='
 client = OpenAI(api_key=key)
 
 

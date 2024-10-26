@@ -79,7 +79,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'aiworkoutgen_data',     # Replace with your database name
         'USER': 'postgres',              # Replace with your PostgreSQL username
-        'PASSWORD': 'appdev',            # Replace with your PostgreSQL password
+        'PASSWORD': 'admin',            # Replace with your PostgreSQL password
         'HOST': 'localhost',             # Keep this as localhost if PostgreSQL is running locally
         'PORT': '5432',                  # Default PostgreSQL port
     }

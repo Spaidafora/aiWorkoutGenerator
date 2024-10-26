@@ -1,47 +1,107 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Workout Plan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <!--to understand nested loop structure, reference json schema in views.py-->
+<body class="bg-gray-100 text-gray-800 font-sans">
 
-    <h1>Your AI Gnerated Workout Plan</h1>
-    <!--display time, target, eq from form input-->
+    <!-- Navbar Start -->
+    <nav class="bg-white py-4 shadow-md fixed top-0 w-full z-10">
+        <div class="container mx-auto flex justify-between items-center px-6">
+            <h1 class="text-2xl font-bold text-gray-900">AI Workout Generator</h1>
+            <div class="flex space-x-4 items-center">
+                <a href="{% url 'history' %}" class="text-gray-600 hover:text-blue-500 transition duration-300">History</a>
+                {% if user.is_authenticated %}
+                <a href="#" class="text-gray-600 hover:text-blue-500 transition duration-300">Logout</a>
+                {% else %}
+                <a href="{% url 'login' %}" class="text-gray-600 hover:text-blue-500 transition duration-300">Login</a>
+                {% endif %}
+                <button id="theme-toggle" class="text-gray-600 hover:text-blue-500 transition duration-300">
+                    Toggle Theme
+                </button>
+            </div>
+        </div>
+    </nav>
+    <!-- Navbar End -->
 
-    <p><b>Time: {{workout_data.time}}</b></p>
-    <p><b>Target: {{full_target_list}}</b></p>
-    <p><b>Equipment: {{full_equipment_list}}</b></p>
+    <div class="container mx-auto pt-24 px-4">
+        <h1 class="text-3xl font-bold text-gray-900 mb-6 text-center">Your AI Generated Workout Plan</h1>
 
-    <h3>Workout Generation:</h3>
-    <!-- go through sections , in each section, go through each item-->
-    {% for section_name, exercise_list in workout_data.sections.items %}
-        <h4>{{ section_name}}</h4> <!--print section name, i.e warmup, cooldown-->
-            <ul> {% for exercise in exercise_list %}  <!--loop through exercises info in each section-->
-                
-                <li> <b> {{exercise.name}}</b> <br> <!--print everything under that exercise set i.e name, time, sets, reps, etc-->
-        
-                    Time: {{exercise.time}} minutes <br>
-                    Sets: {{exercise.sets}} <br> 
-                    Reps: {{exercise.reps}} <br> 
-                    Target Area: {{exercise.target_area}} <br>
-                    Equipment Needed: {{exercise.equipment_needed}}<br>
+        <!-- Display time, target, equipment from form input -->
+        <div class="bg-blue-100 p-6 rounded-lg shadow-lg text-center mb-8">
+            <p class="text-xl font-bold text-blue-600"><b>Time: </b> {{ workout_data.time }} minutes</p>
+            <p class="text-xl font-bold text-blue-600"><b>Target: </b> {{ full_target_list }}</p>
+            <p class="text-xl font-bold text-blue-600"><b>Equipment: </b> {{ full_equipment_list }}</p>
+        </div>
 
-                    <br>
-                </li>
-                {% endfor %}
-            </ul>
-            {% endfor %}
+        <!-- Loop through workout sections as full-width rows -->
+        {% for section_name, exercise_list in workout_data.sections.items %}
+        <div class="bg-white p-6 rounded-lg shadow-lg border-b-4 border-blue-500 my-6">
+            <h2 class="text-2xl font-bold text-blue-600 mb-4">{{ section_name | title }}</h2>
 
+            <!-- Collapsible content for each exercise list -->
+            <div x-data="{ open: false }">
+                <button @click="open = !open" class="text-gray-600 hover:text-blue-500 transition duration-300 font-semibold">
+                    {{ section_name | title }} Details
+                </button>
+                <div x-show="open" class="space-y-4 mt-4">
+                    {% for exercise in exercise_list %}
+                    <div class="p-4 bg-blue-50 rounded-lg shadow-inner">
+                        <h3 class="text-lg font-semibold text-gray-800">{{ exercise.name }}</h3>
+                        <p><b>Time:</b> {{ exercise.time }} minutes</p>
+                        <p><b>Sets:</b> {{ exercise.sets }}</p>
+                        <p><b>Reps:</b> {{ exercise.reps }}</p>
+                        <p><b>Target Area:</b> {{ exercise.target_area }}</p>
+                        <p><b>Equipment Needed:</b> {{ exercise.equipment_needed }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
 
-            <!--save workout data if checked-->
-            <form method ="POST" action = "{% url 'save_workout' %}"> 
+        <!-- Save workout form -->
+        <div class="mt-10 text-center">
+            <label for="completed" class="block text-2xl font-bold text-gray-700 mb-4">Did you complete the workout?</label>
+            <form method="POST" action="{% url 'save_workout' %}">
                 {% csrf_token %}
-                <label for="completed"> "Did you complete the workout? " </label>
-                <input type="checkbox" id="completed" name="completed" value="True">
-                <button type="submit"> Save Workout</button>
+                <input type="checkbox" id="completed" name="completed" value="True" class="mt-1 mb-4">
+                <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-md transition duration-300">
+                    Save Workout
+                </button>
             </form>
+        </div>
+    </div>
+
+    <footer class="bg-gray-800 text-gray-400 py-6 mt-10">
+        <div class="container mx-auto flex justify-between items-center px-6">
+            <p> Application Development: AI Workout Generator</p>
+            <div class="flex space-x-4">
+                <a href="https://github.com/carucheo" class="text-gray-400 hover:text-blue-600 transition duration-300">lalo</a>
+                <a href="https://github.com/parth2300" class="text-gray-400 hover:text-blue-600 transition duration-300">pxrth</a>
+                <a href="https://github.com/Spaidafora" class="text-gray-400 hover:text-blue-600 transition duration-300">spaid</a>
+            </div>
+        </div>
+    </footer>
+   
+
+    <!--  Theme Toggle and Collapsible Interaction -->
+    <script>
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        function toggleTheme() {
+            body.classList.toggle('bg-gray-900');
+            body.classList.toggle('text-gray-100');
+            body.classList.toggle('bg-gray-100');
+            body.classList.toggle('text-gray-800');
+        }
+
+        themeToggle.addEventListener('click', toggleTheme);
+    </script>
 </body>
 </html>

@@ -4,39 +4,106 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Workout History</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/alpinejs" defer></script>
 </head>
-<body>
-    <h1>{{request.user.username}} Workout History</h1>
-    <ul>
-        {% for workout in workouts %}
-            <li>
-                <strong>Date Completed:</strong> {{ workout.created_at }}<br>
-                <strong>Duration:</strong> {{ workout.duration }}<br>
-                <strong>Full Target List:</strong> {{ workout.full_target_list }}<br>
-                <strong>Full Equipment List:</strong> {{ workout.full_equipment_list }}<br>
-                
-                <h3>Workout # {{workout.id}}:</h3>
-                {% for section_name, exercise_list in workout.workout_data.sections.items %}
-                    <h4>{{ section_name }}</h4>
-                    <ul>
-                        {% for exercise in exercise_list %}
-                            <li>
-                                <strong>{{ exercise.name }}</strong><br>
-                                Time: {{ exercise.time }} minutes<br>
-                                {% if exercise.sets %}Sets: {{ exercise.sets }}<br>{% endif %}
-                                {% if exercise.reps %}Reps: {{ exercise.reps }}<br>{% endif %}
-                                Target Area: {{ exercise.target_area }}<br>
-                                Equipment Needed: {{ exercise.equipment_needed }}<br>
-                                <br>
-                            </li>
+<body class="bg-gray-100 text-gray-800 font-sans">
+
+    <!-- Navbar Start -->
+    <nav class="bg-white py-4 shadow-md fixed top-0 w-full z-10">
+        <div class="container mx-auto flex justify-between items-center px-6">
+            <h1 class="text-2xl font-bold text-gray-900">AI Workout Generator</h1>
+            <div class="flex space-x-4 items-center">
+                <a href="{% url 'home' %}" class="text-gray-600 hover:text-blue-500 transition duration-300">Home</a>
+                <a href="{% url 'history' %}" class="text-gray-600 hover:text-blue-500 transition duration-300">History</a>
+                {% if user.is_authenticated %}
+                <a href="#" class="text-gray-600 hover:text-blue-500 transition duration-300">Logout</a>
+                {% else %}
+                <a href="{% url 'login' %}" class="text-gray-600 hover:text-blue-500 transition duration-300">Login</a>
+                {% endif %}
+                <button id="theme-toggle" class="text-gray-600 hover:text-blue-500 transition duration-300">
+                    Toggle Theme
+                </button>
+            </div>
+        </div>
+    </nav>
+    <!-- Navbar End -->
+
+    <!-- Workout History List -->
+    <div class="container mx-auto pt-24 px-4">
+        <h1 class="text-3xl font-bold text-gray-900 mb-6 text-center">{{ request.user.username }}'s Workout History</h1>
+
+        <ul class="space-y-6">
+            {% for workout in workouts %}
+            <li class="bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-500">
+                <!-- Workout Header -->
+                <div x-data="{ open: false }">
+                    <div class="flex justify-between items-center cursor-pointer" @click="open = !open">
+                        <div>
+                            <h2 class="text-xl font-bold text-blue-600">Workout #{{ workout.id }} - {{ workout.created_at|date:"M d, Y" }}</h2>
+                            <p class="text-gray-600">Duration: {{ workout.duration }} </p>
+                        </div>
+                        <button class="text-gray-600 hover:text-blue-500 transition duration-300" x-text="open ? 'Collapse' : 'Expand'"></button>
+                    </div>
+
+                    <!-- Collapsible Content -->
+                    <div x-show="open" class="mt-4 space-y-6" x-cloak>
+                        <p><strong>Target Areas:</strong> {{ workout.full_target_list }}</p>
+                        <p><strong>Equipment Used:</strong> {{ workout.full_equipment_list }}</p>
+
+                        <!-- Workout Sections -->
+                        {% for section_name, exercise_list in workout.workout_data.sections.items %}
+                        <div class="mt-4 bg-blue-50 rounded-lg p-4 shadow-inner">
+                            <h3 class="text-lg font-semibold text-blue-600">{{ section_name | title }}</h3>
+                            <ul class="mt-2 space-y-4">
+                                {% for exercise in exercise_list %}
+                                <li class="bg-white p-4 rounded-md shadow-md">
+                                    <h4 class="text-md font-bold text-gray-800">{{ exercise.name }}</h4>
+                                    <p>Time: {{ exercise.time }} minutes</p>
+                                    {% if exercise.sets %}<p>Sets: {{ exercise.sets }}</p>{% endif %}
+                                    {% if exercise.reps %}<p>Reps: {{ exercise.reps }}</p>{% endif %}
+                                    <p>Target Area: {{ exercise.target_area }}</p>
+                                    <p>Equipment Needed: {{ exercise.equipment_needed }}</p>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
                         {% endfor %}
-                    </ul>
-                {% endfor %}
-                <hr>
+                    </div>
+                </div>
             </li>
-        {% empty %}
-            <li>No completed workouts found.</li>
-        {% endfor %}
-    </ul>
+            {% empty %}
+            <li class="text-center text-gray-600">No completed workouts found.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Footer Start -->
+    <footer class="bg-gray-800 text-gray-400 py-6 mt-10">
+        <div class="container mx-auto flex justify-between items-center px-6">
+            <p> Application Development: AI Workout Generator</p>
+            <div class="flex space-x-4">
+                <a href="https://github.com/carucheo" class="text-gray-400 hover:text-blue-600 transition duration-300">lalo</a>
+                <a href="https://github.com/parth2300" class="text-gray-400 hover:text-blue-600 transition duration-300">pxrth</a>
+                <a href="https://github.com/Spaidafora" class="text-gray-400 hover:text-blue-600 transition duration-300">spaid</a>
+            </div>
+        </div>
+    </footer>
+    <!-- Footer End -->
+
+    <!-- JavaScript for Theme Toggle -->
+    <script>
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        function toggleTheme() {
+            body.classList.toggle('bg-gray-900');
+            body.classList.toggle('text-gray-100');
+            body.classList.toggle('bg-gray-100');
+            body.classList.toggle('text-gray-800');
+        }
+
+        themeToggle.addEventListener('click', toggleTheme);
+    </script>
 </body>
 </html>
