@@ -8,6 +8,5 @@ urlpatterns = [
     path('workout', views.generate_workout, name='workout'),
     path('history', views.display_workout_history, name='history'),
     path('home', views.save_workout, name='save_workout'),
-
-
+    path('delete_workout/<int:pk>', views.delete_workout, name='delete_workout'), #primary key ref > workout id
 ]

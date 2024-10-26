@@ -12,7 +12,7 @@ from django.contrib.auth.models import User
 
 
 # API key
-key = ' ='
+key = ''
 client = OpenAI(api_key=key)
 
 
@@ -323,7 +323,8 @@ def save_workout(request):  #save to DB only if completed
 
 
     return redirect('home')
-    
+
+
 
     
 # display completed workouts in history.html 
@@ -333,3 +334,9 @@ def display_workout_history(request):
     return render(request, 'core/history.html', { #queryset
         'workouts': workout_history #workout     
         }) 
+
+# Delete a workout 
+def delete_workout(request, pk):
+    workout = WorkoutPlan.objects.get(pk=pk)
+    workout.delete()
+    return redirect('history')
