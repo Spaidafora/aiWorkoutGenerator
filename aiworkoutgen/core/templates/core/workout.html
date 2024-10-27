@@ -66,6 +66,7 @@
 
         <!-- Save workout form -->
         <div class="mt-10 text-center">
+            {% if user.is_authenticated %}
             <label for="completed" class="block text-2xl font-bold text-gray-700 mb-4">Did you complete the workout?</label>
             <form method="POST" action="{% url 'save_workout' %}">
                 {% csrf_token %}
@@ -73,6 +74,7 @@
                 <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-md transition duration-300">
                     Save Workout
                 </button>
+                {% endif %}
             </form>
         </div>
     </div>

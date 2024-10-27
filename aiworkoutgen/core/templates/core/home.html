@@ -24,7 +24,8 @@
                 <a href="{% url 'history' %}"
                     class="text-gray-600 hover:text-red-500 transition duration-300">History</a>
                 {% else %}
-                <a href="{% url 'login' %}" class="text-gray-600 hover:text-red-500 transition duration-300">Login</a>
+                <a href="{% url 'login' %}" class="text-gray-600 hover:text-blue-500 transition duration-300">Login</a>
+                <a href="{% url 'signup' %}" class="text-gray-600 hover:text-blue-500 transition duration-300">Sign-Up</a>
                 {% endif %}
                 <!--<a href="{% url 'history' %}" class="text-gray-600 hover:text-red-500 transition duration-300">History</a>-->
                 <!--<button id="theme-toggle" class="text-gray-600 hover:text-red-500 transition duration-300">
@@ -43,22 +44,10 @@
                 Build personalized workout plans with our AI-powered generator. Tailored to your goals, schedule, and
                 equipment.
             </p>
-            {% if user.is_authenticated %}
-
             <button id="get-started"
                 class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-md transition duration-300">Get
                 Started
             </button>
-            {% else %}
-            <a href="{% url 'login' %}">
-                <button id="login"
-                    class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-md transition duration-300">Login</button>
-            </a>
-            <a href="{% url 'signup' %}">
-                <button id="signup"
-                    class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-md transition duration-300 mt-4">Signup</button>
-            </a>
-            {% endif %}
         </div>
     </header>
     <!-- Hero Section End -->
