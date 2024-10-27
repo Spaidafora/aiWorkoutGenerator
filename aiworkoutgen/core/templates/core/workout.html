@@ -15,7 +15,7 @@
     <nav class="bg-white py-4 shadow-md fixed top-0 w-full z-10">
         <div class="container mx-auto flex justify-between items-center px-6">
             <a href="{% url 'home' %}">
-                <h1 class="text-2xl font-bold text-gray-900">AI Workout Generator</h1>
+                <h1 class="text-2xl font-bold text-gray-900 hover:text-blue-500">AI Workout Generator</h1>
             </a>
             <div class="flex space-x-4 items-center">
                 <a href="{% url 'history' %}"
@@ -38,20 +38,20 @@
 
         <!-- Display time, target, equipment from form input -->
         <div class="bg-blue-100 p-6 rounded-lg shadow-lg text-center mb-8">
-            <p class="text-xl font-bold text-blue-600"><b>Time: </b> {{ workout_data.time }} minutes</p>
-            <p class="text-xl font-bold text-blue-600"><b>Target: </b> {{ full_target_list }}</p>
-            <p class="text-xl font-bold text-blue-600"><b>Equipment: </b> {{ full_equipment_list }}</p>
+            <p class="text-xl font-bold text-black-600"><b>Time: </b> {{ workout_data.time }} minutes</p>
+            <p class="text-xl font-bold text-black-600"><b>Target: </b> {{ full_target_list }}</p>
+            <p class="text-xl font-bold text-black-600"><b>Equipment: </b> {{ full_equipment_list }}</p>
         </div>
 
         <!-- Loop through workout sections as full-width rows -->
         {% for section_name, exercise_list in workout_data.sections.items %}
         <div class="bg-white p-6 rounded-lg shadow-lg border-b-4 border-blue-500 my-6">
-            <h2 class="text-2xl font-bold text-blue-600 mb-4">{{ section_name | title }}</h2>
+            <h2 class="text-2xl font-bold text-black-600 mb-4">{{ section_name | title }}</h2>
 
             <!-- Collapsible content for each exercise list -->
             <div x-data="{ open: false }">
                 <button @click="open = !open"
-                    class="text-gray-600 hover:text-blue-500 transition duration-300 font-semibold">
+                    class="text-gray-600 transition duration-300 font-semibold">
                     {{ section_name | title }} Details
                 </button>
                 <div x-show="open" class="space-y-4 mt-4">
@@ -72,33 +72,33 @@
 
         <!-- Save workout form -->
         <div class="mt-10 text-center">
-            <label for="completed" class="block text-2xl font-bold text-gray-700 mb-4">Did you complete the
+            {% if user.is_authenticated %}
+            <label for="completed" class="block text-2xl font-bold text-gray-700 mb-4">Would you like to save this
                 workout?</label>
             <form method="POST" action="{% url 'save_workout' %}">
                 {% csrf_token %}
-                <input type="checkbox" id="completed" name="completed" value="True" class="mt-1 mb-4">
-                <button type="submit"
-                    class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-md transition duration-300">
-                    Save Workout
+                <button type="submit" id="completed" name="completed" value="True"
+                    class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md transition duration-300">
+                    Save
                 </button>
+                {% endif %}
             </form>
         </div>
     </div>
 
     <footer class="bg-gray-800 text-gray-400 py-6 mt-10">
         <div class="container mx-auto flex justify-between items-center px-6">
-            <p> Application Development: AI Workout Generator</p>
+            <p> Application Development: Do you even lift, bruh?</p>
             <div class="flex space-x-4">
                 <a href="https://github.com/carucheo"
-                    class="text-gray-400 hover:text-blue-600 transition duration-300">lalo</a>
+                    class="text-gray-400 hover:text-blue-500 transition duration-300">lalo</a>
                 <a href="https://github.com/parth2300"
-                    class="text-gray-400 hover:text-blue-600 transition duration-300">pxrth</a>
+                    class="text-gray-400 hover:text-blue-500 transition duration-300">pxrth</a>
                 <a href="https://github.com/Spaidafora"
-                    class="text-gray-400 hover:text-blue-600 transition duration-300">spaid</a>
+                    class="text-gray-400 hover:text-blue-500 transition duration-300">spaid</a>
             </div>
         </div>
     </footer>
-
 
     <!--  Theme Toggle and Collapsible Interaction -->
     <!-- JavaScript for Theme Toggle -->

@@ -20,11 +20,11 @@
                 <!--old history link was here moved for testing-->
                 {% if user.is_authenticated %}
 
-                <a href="{% url 'logout' %}" class="text-gray-600 hover:text-red-500 transition duration-300">Logout</a>
+                <a href="{% url 'logout' %}" class="text-gray-600 hover:text-blue-500 transition duration-300">Logout</a>
                 <a href="{% url 'history' %}"
-                    class="text-gray-600 hover:text-red-500 transition duration-300">History</a>
+                    class="text-gray-600 hover:text-blue-500 transition duration-300">History</a>
                 {% else %}
-                <a href="{% url 'login' %}" class="text-gray-600 hover:text-red-500 transition duration-300">Login</a>
+                <a href="{% url 'login' %}" class="text-gray-600 hover:text-blue-500 transition duration-300">Login</a>
                 {% endif %}
                 <!--<a href="{% url 'history' %}" class="text-gray-600 hover:text-red-500 transition duration-300">History</a>-->
                 <!--<button id="theme-toggle" class="text-gray-600 hover:text-red-500 transition duration-300">
@@ -159,7 +159,9 @@
                 </div>
 
                 <!-- Generate Plan Button -->
-                <button type="submit" class="w-full mt-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-md transition duration-300">Generate Plan</button>
+                <button type="submit"
+                    class="w-full mt-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-md transition duration-300">Generate
+                    Plan</button>
                 <button type="button" id="close-modal"
                     class="w-full mt-2 bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 rounded-md transition duration-300">Cancel</button>
             </form>
@@ -170,14 +172,14 @@
     <!-- Footer -->
     <footer class="bg-gray-800 text-gray-400 py-6 mt-10 fixed bottom-0 w-full">
         <div class="container mx-auto flex justify-between items-center px-6">
-            <p> Application Development: AI Workout Generator</p>
+            <p> Application Development: Do you even lift, bruh?</p>
             <div class="flex space-x-4">
                 <a href="https://github.com/carucheo"
-                    class="text-gray-400 hover:text-red-600 transition duration-300">lalo</a>
+                    class="text-gray-400 hover:text-blue-500 transition duration-300">lalo</a>
                 <a href="https://github.com/parth2300"
-                    class="text-gray-400 hover:text-red-600 transition duration-300">pxrth</a>
+                    class="text-gray-400 hover:text-blue-500 transition duration-300">pxrth</a>
                 <a href="https://github.com/Spaidafora"
-                    class="text-gray-400 hover:text-red-600 transition duration-300">spaid</a>
+                    class="text-gray-400 hover:text-blue-500 transition duration-300">spaid</a>
             </div>
         </div>
     </footer>

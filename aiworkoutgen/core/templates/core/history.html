@@ -15,7 +15,7 @@
     <nav class="bg-white py-4 shadow-md fixed top-0 w-full z-10">
         <div class="container mx-auto flex justify-between items-center px-6">
             <a href="{% url 'home' %}">
-                <h1 class="text-2xl font-bold text-gray-900">AI Workout Generator</h1>
+                <h1 class="text-2xl font-bold text-gray-900 hover:text-blue-500">AI Workout Generator</h1>
             </a>
             </a>
             <div class="flex space-x-4 items-center">
@@ -26,7 +26,8 @@
                 {% else %}
                 <a href="{% url 'login' %}" class="text-gray-600 hover:text-blue-500 transition duration-300">Login</a>
                 {% endif %}
-                <a href="{% url 'history' %}" class="text-gray-600 hover:text-blue-500 transition duration-300">History</a>
+                <a href="{% url 'history' %}"
+                    class="text-gray-600 hover:text-blue-500 transition duration-300">History</a>
                 <!--<button id="theme-toggle" class="text-gray-600 hover:text-red-500 transition duration-300">
                     Toggle Theme
                 </button>-->
@@ -90,7 +91,7 @@
                 </div>
             </li>
             {% empty %}
-            <li class="text-center text-gray-600">No completed workouts found.</li>
+            <li class="text-center text-gray-600">No saved workouts.</li>
             {% endfor %}
         </ul>
     </div>
@@ -98,14 +99,14 @@
     <!-- Footer Start -->
     <footer class="bg-gray-800 text-gray-400 py-6 w-full">
         <div class="container mx-auto flex justify-between items-center px-6">
-            <p> Application Development: AI Workout Generator</p>
+            <p> Application Development: Do you even lift, bruh?</p>
             <div class="flex space-x-4">
                 <a href="https://github.com/carucheo"
-                    class="text-gray-400 hover:text-blue-600 transition duration-300">lalo</a>
+                    class="text-gray-400 hover:text-blue-500 transition duration-300">lalo</a>
                 <a href="https://github.com/parth2300"
-                    class="text-gray-400 hover:text-blue-600 transition duration-300">pxrth</a>
+                    class="text-gray-400 hover:text-blue-500 transition duration-300">pxrth</a>
                 <a href="https://github.com/Spaidafora"
-                    class="text-gray-400 hover:text-blue-600 transition duration-300">spaid</a>
+                    class="text-gray-400 hover:text-blue-500 transition duration-300">spaid</a>
             </div>
         </div>
     </footer>
@@ -143,4 +144,5 @@
         themeToggle.addEventListener('click', toggleTheme);
     </script>-->
 </body>
+
 </html>
