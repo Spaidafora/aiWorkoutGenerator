@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,20 +8,26 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/alpinejs" defer></script>
 </head>
-<body class="bg-gray-100 text-gray-800 font-sans">
+
+<body class="bg-gray-100 text-gray-800 font-sans min-h-screen flex flex-col">
 
     <!-- Navbar Start -->
     <nav class="bg-white py-4 shadow-md fixed top-0 w-full z-10">
         <div class="container mx-auto flex justify-between items-center px-6">
-            <a href="{% url 'home' %}"><h1 class="text-2xl font-bold text-gray-900">AI Workout Generator</h1></a>
+            <a href="{% url 'home' %}">
+                <h1 class="text-2xl font-bold text-gray-900">AI Workout Generator</h1>
+            </a>
+            </a>
             <div class="flex space-x-4 items-center">
-                
+
                 {% if user.is_authenticated %}
-                <a href="{% url 'logout' %}" class="text-gray-600 hover:text-blue-500 transition duration-300">Logout</a>
+                <a href="{% url 'logout' %}"
+                    class="text-gray-600 hover:text-blue-500 transition duration-300">Logout</a>
                 {% else %}
                 <a href="{% url 'login' %}" class="text-gray-600 hover:text-blue-500 transition duration-300">Login</a>
                 {% endif %}
-                <a href="{% url 'history' %}" class="text-gray-600 hover:text-blue-500 transition duration-300">History</a>
+                <a href="{% url 'history' %}"
+                    class="text-gray-600 hover:text-blue-500 transition duration-300">History</a>
                 <button id="theme-toggle" class="text-gray-600 hover:text-blue-500 transition duration-300">
                     Toggle Theme
                 </button>
@@ -30,21 +37,23 @@
     <!-- Navbar End -->
 
     <!-- Workout History List -->
-    <div class="container mx-auto pt-24 px-4">
+    <div class="container mx-auto pt-24 px-4 flex-grow">
         <h1 class="text-3xl font-bold text-gray-900 mb-6 text-center">{{ request.user.username }}'s Workout History</h1>
 
         <ul class="space-y-6">
             {% for workout in workouts %}
-            
+
             <li class="bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-500">
                 <!-- Workout Header -->
                 <div x-data="{ open: false }">
                     <div class="flex justify-between items-center cursor-pointer" @click="open = !open">
                         <div>
-                            <h2 class="text-xl font-bold text-blue-600">Workout #{{ workout.id }} - {{ workout.created_at|date:"M d, Y" }}</h2>
+                            <h2 class="text-xl font-bold text-blue-600">Workout: {{ workout.created_at|date:"M d, Y" }}
+                            </h2>
                             <p class="text-gray-600">Duration: {{ workout.duration }} </p>
                         </div>
-                        <button class="text-gray-600 hover:text-blue-500 transition duration-300" x-text="open ? 'Collapse' : 'Expand'"></button>
+                        <button class="text-gray-600 hover:text-blue-500 transition duration-300"
+                            x-text="open ? 'Collapse' : 'Expand'"></button>
                     </div>
 
                     <!-- Collapsible Content -->
@@ -66,21 +75,19 @@
                                     <p>Target Area: {{ exercise.target_area }}</p>
                                     <p>Equipment Needed: {{ exercise.equipment_needed }}</p>
                                 </li>
-    
+
                                 {% endfor %}
                             </ul>
                         </div>
-                            
-
                         {% endfor %}
-                                 <!--delete button-->
-                       
-                                 <div class="flex justify-center">
-                                    <a href = "{% url 'delete_workout' pk=workout.pk %}" class="bg-gray-900 hover:bg-gray-700 text-white font-semibold py-2 px-5 rounded-md shadow-lg transition duration-200">Delete Workout</a>
-                                        </div>
 
+                        <!-- Delete button -->
+                        <div class="flex justify-center">
+                            <a href="{% url 'delete_workout' pk=workout.pk %}"
+                                class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-5 rounded-md shadow-lg transition duration-200">Delete
+                                Workout</a>
+                        </div>
                     </div>
-                   
                 </div>
             </li>
             {% empty %}
@@ -90,13 +97,16 @@
     </div>
 
     <!-- Footer Start -->
-    <footer class="bg-gray-800 text-gray-400 py-6 mt-10 fixed bottom-0 w-full">
+    <footer class="bg-gray-800 text-gray-400 py-6 w-full">
         <div class="container mx-auto flex justify-between items-center px-6">
             <p> Application Development: AI Workout Generator</p>
             <div class="flex space-x-4">
-                <a href="https://github.com/carucheo" class="text-gray-400 hover:text-blue-600 transition duration-300">lalo</a>
-                <a href="https://github.com/parth2300" class="text-gray-400 hover:text-blue-600 transition duration-300">pxrth</a>
-                <a href="https://github.com/Spaidafora" class="text-gray-400 hover:text-blue-600 transition duration-300">spaid</a>
+                <a href="https://github.com/carucheo"
+                    class="text-gray-400 hover:text-blue-600 transition duration-300">lalo</a>
+                <a href="https://github.com/parth2300"
+                    class="text-gray-400 hover:text-blue-600 transition duration-300">pxrth</a>
+                <a href="https://github.com/Spaidafora"
+                    class="text-gray-400 hover:text-blue-600 transition duration-300">spaid</a>
             </div>
         </div>
     </footer>
@@ -122,7 +132,6 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             const savedTheme = localStorage.getItem('theme');
-
             if (savedTheme === 'dark') {
                 document.body.classList.add('bg-gray-900', 'text-gray-100');
                 document.body.classList.remove('bg-gray-100', 'text-gray-800');
@@ -135,4 +144,5 @@
         themeToggle.addEventListener('click', toggleTheme);
     </script>
 </body>
+
 </html>

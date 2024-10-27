@@ -10,7 +10,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-100 text-gray-800 font-sans">
+<body class="bg-gray-100 text-gray-800 font-sans min-h-screen flex flex-col">
 
     <!-- Navbar Start -->
     <nav class="bg-white py-4 shadow-md fixed top-0 w-full z-10">
@@ -144,9 +144,8 @@
                     </div>
                 </div>
 
-                <!-- Get Started Button -->
-                <button type="submit" class="w-full text-white font-semibold py-3 rounded-md transition duration-300"
-                    style="background-color: #3B82F6;">Generate Plan</button>
+                <!-- Generate Plan Button -->
+                <button type="submit" class="w-full mt-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-md transition duration-300">Generate Plan</button>
                 <button type="button" id="close-modal"
                     class="w-full mt-2 bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 rounded-md transition duration-300">Cancel</button>
             </form>
@@ -155,7 +154,7 @@
     <!-- Modal End -->
 
     <!-- Footer -->
-    <footer class="bg-gray-800 text-gray-400 py-6 mt-10">
+    <footer class="bg-gray-800 text-gray-400 py-6 mt-10 fixed bottom-0 w-full">
         <div class="container mx-auto flex justify-between items-center px-6">
             <p> Application Development: AI Workout Generator</p>
             <div class="flex space-x-4">

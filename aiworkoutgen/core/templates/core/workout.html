@@ -1,20 +1,25 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Workout Plan</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body class="bg-gray-100 text-gray-800 font-sans">
 
     <!-- Navbar Start -->
     <nav class="bg-white py-4 shadow-md fixed top-0 w-full z-10">
         <div class="container mx-auto flex justify-between items-center px-6">
-            <h1 class="text-2xl font-bold text-gray-900">AI Workout Generator</h1>
+            <a href="{% url 'home' %}">
+                <h1 class="text-2xl font-bold text-gray-900">AI Workout Generator</h1>
+            </a>
             <div class="flex space-x-4 items-center">
-                <a href="{% url 'history' %}" class="text-gray-600 hover:text-blue-500 transition duration-300">History</a>
+                <a href="{% url 'history' %}"
+                    class="text-gray-600 hover:text-blue-500 transition duration-300">History</a>
                 {% if user.is_authenticated %}
                 <a href="#" class="text-gray-600 hover:text-blue-500 transition duration-300">Logout</a>
                 {% else %}
@@ -45,7 +50,8 @@
 
             <!-- Collapsible content for each exercise list -->
             <div x-data="{ open: false }">
-                <button @click="open = !open" class="text-gray-600 hover:text-blue-500 transition duration-300 font-semibold">
+                <button @click="open = !open"
+                    class="text-gray-600 hover:text-blue-500 transition duration-300 font-semibold">
                     {{ section_name | title }} Details
                 </button>
                 <div x-show="open" class="space-y-4 mt-4">
@@ -66,11 +72,13 @@
 
         <!-- Save workout form -->
         <div class="mt-10 text-center">
-            <label for="completed" class="block text-2xl font-bold text-gray-700 mb-4">Did you complete the workout?</label>
+            <label for="completed" class="block text-2xl font-bold text-gray-700 mb-4">Did you complete the
+                workout?</label>
             <form method="POST" action="{% url 'save_workout' %}">
                 {% csrf_token %}
                 <input type="checkbox" id="completed" name="completed" value="True" class="mt-1 mb-4">
-                <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-md transition duration-300">
+                <button type="submit"
+                    class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-md transition duration-300">
                     Save Workout
                 </button>
             </form>
@@ -81,13 +89,16 @@
         <div class="container mx-auto flex justify-between items-center px-6">
             <p> Application Development: AI Workout Generator</p>
             <div class="flex space-x-4">
-                <a href="https://github.com/carucheo" class="text-gray-400 hover:text-blue-600 transition duration-300">lalo</a>
-                <a href="https://github.com/parth2300" class="text-gray-400 hover:text-blue-600 transition duration-300">pxrth</a>
-                <a href="https://github.com/Spaidafora" class="text-gray-400 hover:text-blue-600 transition duration-300">spaid</a>
+                <a href="https://github.com/carucheo"
+                    class="text-gray-400 hover:text-blue-600 transition duration-300">lalo</a>
+                <a href="https://github.com/parth2300"
+                    class="text-gray-400 hover:text-blue-600 transition duration-300">pxrth</a>
+                <a href="https://github.com/Spaidafora"
+                    class="text-gray-400 hover:text-blue-600 transition duration-300">spaid</a>
             </div>
         </div>
     </footer>
-   
+
 
     <!--  Theme Toggle and Collapsible Interaction -->
     <script>
@@ -104,4 +115,5 @@
         themeToggle.addEventListener('click', toggleTheme);
     </script>
 </body>
+
 </html>
