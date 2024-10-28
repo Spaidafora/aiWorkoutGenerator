@@ -20,8 +20,8 @@
             </a>
             </a>
             <div class="flex space-x-4 items-center">
-
                 {% if user.is_authenticated %}
+
                 <a href="{% url 'logout' %}"
                     class="text-gray-600 hover:text-blue-500 transition duration-300">Logout</a>
                 {% else %}
@@ -29,9 +29,6 @@
                 {% endif %}
                 <a href="{% url 'history' %}"
                     class="text-gray-600 hover:text-blue-500 transition duration-300">History</a>
-                <!--<button id="theme-toggle" class="text-gray-600 hover:text-red-500 transition duration-300">
-                    Toggle Theme
-                </button>-->
             </div>
         </div>
     </nav>
@@ -113,37 +110,6 @@
     </footer>
     <!-- Footer End -->
 
-    <!-- JavaScript for Theme Toggle -->
-    <!--<script>
-        const themeToggle = document.getElementById('theme-toggle');
-        const body = document.body;
-
-        function toggleTheme() {
-            body.classList.toggle('bg-gray-900');
-            body.classList.toggle('text-gray-100');
-            body.classList.toggle('bg-gray-100');
-            body.classList.toggle('text-gray-800');
-
-            if (document.body.classList.contains('bg-gray-900')) {
-                localStorage.setItem('theme', 'dark');
-            } else {
-                localStorage.setItem('theme', 'light');
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'dark') {
-                document.body.classList.add('bg-gray-900', 'text-gray-100');
-                document.body.classList.remove('bg-gray-100', 'text-gray-800');
-            } else {
-                document.body.classList.add('bg-gray-100', 'text-gray-800');
-                document.body.classList.remove('bg-gray-900', 'text-gray-100');
-            }
-        });
-
-        themeToggle.addEventListener('click', toggleTheme);
-    </script>-->
 </body>
 
 </html>

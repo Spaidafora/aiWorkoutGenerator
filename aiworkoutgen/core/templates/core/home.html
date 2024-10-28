@@ -29,10 +29,6 @@
                 <a href="{% url 'signup' %}"
                     class="text-gray-600 hover:text-blue-500 transition duration-300">Sign-Up</a>
                 {% endif %}
-                <!--<a href="{% url 'history' %}" class="text-gray-600 hover:text-red-500 transition duration-300">History</a>-->
-                <!--<button id="theme-toggle" class="text-gray-600 hover:text-red-500 transition duration-300">
-                    Toggle Theme
-                </button>-->
             </div>
         </div>
     </nav>
@@ -176,7 +172,7 @@
     </div>
     <!-- Modal End -->
 
-    <!-- Footer -->
+    <!-- Footer Start -->
     <footer class="bg-gray-800 text-gray-400 py-6 mt-10 fixed bottom-0 w-full">
         <div class="container mx-auto flex justify-between items-center px-6">
             <p> Application Development: Do you even lift, brah?</p>
@@ -227,33 +223,6 @@
                 workoutModal.classList.add('hidden');
             }
         });
-
-        // Dark/Light Mode Toggle Script
-        /*themeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('bg-gray-900');
-            document.body.classList.toggle('text-gray-100');
-            document.body.classList.toggle('bg-gray-100');
-            document.body.classList.toggle('text-gray-800');
-            updateModalTheme();
-
-            if (document.body.classList.contains('bg-gray-900')) {
-                localStorage.setItem('theme', 'dark');
-            } else {
-                localStorage.setItem('theme', 'light');
-            }
-        });
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedTheme = localStorage.getItem('theme');
-
-            if (savedTheme === 'dark') {
-                document.body.classList.add('bg-gray-900', 'text-gray-100');
-                document.body.classList.remove('bg-gray-100', 'text-gray-800');
-            } else {
-                document.body.classList.add('bg-gray-100', 'text-gray-800');
-                document.body.classList.remove('bg-gray-900', 'text-gray-100');
-            }
-        });*/
     </script>
 </body>
 
