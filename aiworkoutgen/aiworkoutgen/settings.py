@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-bau_&nru9xprwlx8qx&uuvn0h^edqc+b+*ed==(l32g!ivf*6#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['aiworkoutgenerator.onrender.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
