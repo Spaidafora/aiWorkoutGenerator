@@ -44,3 +44,13 @@ class WorkoutPlan(models.Model):
     custom_equipment = models.CharField(max_length=100, blank=True, null=True)
     def __str__(self):
         return f"{self.user.username}'s workout plan for {self.target_area} - {self.duration} mins"
+    
+
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    api_key = models.CharField(max_length=255, blank=True, null=True)  # Store the API key securely
+
+    def __str__(self):
+        return self.user.username

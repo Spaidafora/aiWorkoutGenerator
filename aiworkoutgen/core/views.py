@@ -9,7 +9,7 @@ from django.http import JsonResponse
 from openai import OpenAI
 from .models import WorkoutPlan
 from django.contrib.auth.models import User
-
+from .models import UserProfile
 
 # API key
 key = ''
@@ -69,22 +69,70 @@ def user_signup(request):
             
     return render(request, 'core/signup.html')
 
+
+def user_profile(request):
+    if request.method == 'POST':
+        api_key = request.POST.get('api_key')
+
+        if api_key:
+            if request.user.is_authenticated:
+                # Save the API key for logged-in users
+                user_profile, created = UserProfile.objects.get_or_create(user=request.user)
+                user_profile.api_key = api_key
+                user_profile.save()
+            else:
+                # Handle non-authenticated users (e.g., save in session or display a message)
+                request.session['api_key'] = api_key
+                messages.success(request, 'API key has been temporarily saved in your session.')
+
+            messages.success(request, 'API key has been successfully saved.')
+            return redirect('user_profile')
+        else:
+            messages.error(request, 'Please provide a valid API key.')
+
+    return render(request, 'core/profile.html')
+
+
 # get user input, make API call, save info, redirect to workout.html , save in history.html
 def generate_workout(request):
     if request.method == 'POST':  # validate
-        time = request.POST.get('time')  # capture time in string format i.e 10 minutes
-        timeInt = int(time.split()[0])  # take only the first part, convert to int i.e 10
-        target = request.POST.getlist('target_area')
-        target_list = ", ".join(target)
-        equipment = request.POST.getlist('equipment')
-        equipment_list = ", ".join(equipment)  # comma-separated, remove list format []
-        custom_equipment = request.POST.get('custom_equipment', '')  # Default to '' if not provided
-        custom_target = request.POST.get('custom_target', '')
-        completed = request.POST.get('completed', False)  # Default to False if not checked
+        # Retrieve the API key from the session or user's profile
+        api_key = None
 
+        # Check if the user is authenticated and has an API key in their profile
+        if request.user.is_authenticated:
+            try:
+                user_profile = UserProfile.objects.get(user=request.user)
+                api_key = user_profile.api_key
+            except UserProfile.DoesNotExist:
+                api_key = None
 
-        # ChatGPT-generated prompt
-        chatGPT_generated_prompt = f"""
+        # If no API key from user profile, check the session for an API key
+        if not api_key:
+            api_key = request.session.get('api_key')
+
+        # If still no API key, return an error message
+        if not api_key:
+            messages.error(request, 'API key is missing. Please provide an API key on the API Profile page.')
+            return redirect('user_profile')
+
+        # Initialize the OpenAI client with the retrieved API key
+        client = OpenAI(api_key=api_key)
+
+        try:
+            # Your existing code for input handling and prompt generation
+            time = request.POST.get('time')  # capture time in string format i.e 10 minutes
+            timeInt = int(time.split()[0])  # take only the first part, convert to int i.e 10
+            target = request.POST.getlist('target_area')
+            target_list = ", ".join(target)
+            equipment = request.POST.getlist('equipment')
+            equipment_list = ", ".join(equipment)
+            custom_equipment = request.POST.get('custom_equipment', '')
+            custom_target = request.POST.get('custom_target', '')
+            completed = request.POST.get('completed', False)  # Default to False if not checked
+
+            # ChatGPT-generated prompt
+            chatGPT_generated_prompt = f"""
 Generate a personalized workout plan in JSON format, based on the following user inputs:
 
 - **Duration**: {timeInt} minutes
@@ -214,8 +262,8 @@ Example, workout is standing or strentching, sets: None reps: None, just use tim
     
         - Return the workout plan in **JSON** format, with each section as a key.
         """
-
-        response = client.chat.completions.create(
+            #API CALL
+            response = client.chat.completions.create(
             model="gpt-4o-2024-08-06",
             messages=[
                 {
@@ -267,39 +315,44 @@ Example, workout is standing or strentching, sets: None reps: None, just use tim
                 }
             }
         )
+            # Parse the response
+            print(response.choices[0].message.content)
 
-        workout_plan_json = json.loads(response.choices[0].message.content) # parse using json.loads > converted to dictionary
-        
-        
-         # Will combine given targets and equipment with custom targets and equipment, comma separated, if empty, output is None. 
+            workout_plan_json = json.loads(response.choices[0].message.content)
 
-        full_target_list = target_list
-        full_equipment_list = equipment_list
-        if custom_target:
-            full_target_list = f"{target_list}, {custom_target}".strip(", ")
-        
-        if custom_equipment:
-            full_equipment_list = f"{equipment_list}, {custom_equipment}".strip(", ")
+            # Prepare data for rendering
+            full_target_list = target_list
+            full_equipment_list = equipment_list
+            if custom_target:
+                full_target_list = f"{target_list}, {custom_target}".strip(", ")
 
-        if not full_target_list:
-           full_target_list = 'None'
+            if custom_equipment:
+                full_equipment_list = f"{equipment_list}, {custom_equipment}".strip(", ")
 
-        if not full_equipment_list:
-            full_equipment_list = 'None'
+            if not full_target_list:
+                full_target_list = 'None'
 
-        # temporarily store workout data in a session to use later in order to display in history or not 
-        request.session['workout_data'] = workout_plan_json
-        request.session['full_equipment_list'] = full_equipment_list
-        request.session['full_target_list'] = full_target_list
-        request.session['time'] = time
+            if not full_equipment_list:
+                full_equipment_list = 'None'
 
-        return render(request, 'core/workout.html', {
-            'workout_data': workout_plan_json,
-            'full_equipment_list': full_equipment_list,
-            'full_target_list': full_target_list
-        })
+            # Store data in session
+            request.session['workout_data'] = workout_plan_json
+            request.session['full_equipment_list'] = full_equipment_list
+            request.session['full_target_list'] = full_target_list
+            request.session['time'] = time
+
+            # Render the response
+            return render(request, 'core/workout.html', {
+                'workout_data': workout_plan_json,
+                'full_equipment_list': full_equipment_list,
+                'full_target_list': full_target_list
+            })
+        except Exception as e:
+            messages.error(request, f'An error occurred: {str(e)}')
+            return redirect('user_profile')
     else:
         return JsonResponse({'error': 'POST NOT DETECTED, METHOD NOT ALLOWED'}, status=405)
+
     
 
 def save_workout(request):  #save to DB only if completed 
