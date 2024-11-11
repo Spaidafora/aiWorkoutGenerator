@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import dj_database_url
+import os 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -75,14 +77,9 @@ WSGI_APPLICATION = 'aiworkoutgen.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'aiworkoutgen_data',     # Replace with your database name
-        'USER': 'postgres',              # Replace with your PostgreSQL username
-        'PASSWORD': 'admin',            # Replace with your PostgreSQL password
-        'HOST': 'localhost',             # Keep this as localhost if PostgreSQL is running locally
-        'PORT': '5432',                  # Default PostgreSQL port
-    }
+    'default': dj_database_url.config(
+        default='postgresql://aiworkoutgen_data_user:8Ru2cddl78rEliSR3oldvLhB2iqgZxmo@dpg-csor8pd6l47c7394c3g0-a/aiworkoutgen_data'
+    )
 }
 
 # Password validation
